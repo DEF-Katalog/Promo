@@ -18,10 +18,48 @@ body {
     color: #333;
 }
 
+/* ===== NAVBAR ===== */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #1e3c72;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    z-index: 1000;
+}
+
+nav .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd166;
+}
+
+/* ===== HEADER ===== */
 header {
+    margin-top: 70px;
     background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
-    padding: 40px 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
@@ -34,6 +72,7 @@ header p {
     opacity: 0.9;
 }
 
+/* ===== PRODUCT SECTION ===== */
 .container {
     max-width: 1100px;
     margin: 40px auto;
@@ -66,21 +105,11 @@ header p {
     padding: 20px;
 }
 
-.card h3 {
-    margin-bottom: 10px;
-}
-
 .price {
     color: #e63946;
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 18px;
-}
-
-.card p {
-    font-size: 14px;
-    margin-bottom: 15px;
-    color: #555;
 }
 
 button {
@@ -99,6 +128,7 @@ button:hover {
     background-color: #16325c;
 }
 
+/* ===== FOOTER ===== */
 footer {
     text-align: center;
     padding: 20px;
@@ -111,39 +141,50 @@ footer {
 
 <body>
 
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">DIANA EVA FURNITURE</div>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#produk">Produk</a></li>
+        <li><a href="#">Tentang</a></li>
+        <li><a href="#">Kontak</a></li>
+    </ul>
+</nav>
+
 <header>
     <h1>Katalog Promo Produk</h1>
     <p>Temukan Penawaran Terbaik Hari Ini</p>
 </header>
 
-<div class="container">
+<div class="container" id="produk">
 
     <div class="card">
-        <img src="https://via.placeholder.com/400x300" alt="Produk 1">
+        <img src="https://via.placeholder.com/400x300">
         <div class="card-body">
             <h3>Produk Premium A</h3>
             <div class="price">Rp 150.000</div>
-            <p>Produk berkualitas tinggi dengan desain modern dan elegan.</p>
+            <p>Produk berkualitas tinggi dengan desain modern.</p>
             <button>Beli Sekarang</button>
         </div>
     </div>
 
     <div class="card">
-        <img src="https://via.placeholder.com/400x300" alt="Produk 2">
+        <img src="https://via.placeholder.com/400x300">
         <div class="card-body">
             <h3>Produk Premium B</h3>
             <div class="price">Rp 250.000</div>
-            <p>Performa maksimal dengan harga terbaik di kelasnya.</p>
+            <p>Performa maksimal dengan harga terbaik.</p>
             <button>Beli Sekarang</button>
         </div>
     </div>
 
     <div class="card">
-        <img src="https://via.placeholder.com/400x300" alt="Produk 3">
+        <img src="https://via.placeholder.com/400x300">
         <div class="card-body">
             <h3>Produk Premium C</h3>
             <div class="price">Rp 350.000</div>
-            <p>Kualitas unggul untuk kebutuhan profesional dan pribadi.</p>
+            <p>Kualitas unggul untuk kebutuhan profesional.</p>
             <button>Beli Sekarang</button>
         </div>
     </div>
