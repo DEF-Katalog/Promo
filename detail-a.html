@@ -61,6 +61,37 @@ img {
 .btn:hover {
     background: #1ebe5d;
 }
+    .gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mainImage {
+    width: 400px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 10px;
+}
+
+.thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.thumbnails img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -71,7 +102,16 @@ img {
 </nav>
 
 <div class="container">
-    <img src="https://via.placeholder.com/500x400">
+    <div class="gallery">
+    <img id="mainImage" src="https://via.placeholder.com/500x400">
+    
+    <div class="thumbnails">
+        <img src="https://via.placeholder.com/500x400" onclick="changeImage(this)">
+        <img src="https://via.placeholder.com/500x401" onclick="changeImage(this)">
+        <img src="https://via.placeholder.com/500x402" onclick="changeImage(this)">
+        <img src="https://via.placeholder.com/500x403" onclick="changeImage(this)">
+    </div>
+</div>
     <div class="detail">
         <h1>Produk Premium A</h1>
         <div class="price">Rp 150.000</div>
@@ -93,6 +133,10 @@ img {
         </a>
     </div>
 </div>
-
+<script>
+function changeImage(element) {
+    document.getElementById("mainImage").src = element.src;
+}
+</script>
 </body>
 </html>
