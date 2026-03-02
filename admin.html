@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Produk</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>Admin Produk</h1>
+<a href="index.html">← Kembali ke Katalog</a>
+
+<hr>
+
+<h2>Tambah Produk</h2>
+
+<input type="text" id="name" placeholder="Nama Produk"><br>
+<input type="text" id="description" placeholder="Deskripsi"><br>
+<input type="text" id="image" placeholder="URL Gambar"><br>
+
+<hr>
+
+<h3>Tambah Ukuran</h3>
+<input type="text" id="size" placeholder="Ukuran">
+<input type="number" id="price" placeholder="Harga">
+<button id="addVariantBtn">Tambah Ukuran</button>
+
+<div id="variantPreview"></div>
+
+<br>
+<button id="saveProductBtn">Simpan Produk</button>
+
+<hr>
+
+<h2>Daftar Produk</h2>
+<div id="adminProductList"></div>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
