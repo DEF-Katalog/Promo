@@ -1,60 +1,37 @@
-// ===== IMPORT FIREBASE =====
-import { db } from "./firebase.js";
-import {
-  collection,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import ProductService from "./services/ProductService.js";
 
-// ===== REFERENSI COLLECTION =====
-const productRef = collection(db, "products");
+const productService = new ProductService();
 
-// ===== AMBIL DATA REALTIME =====
-onSnapshot(productRef, (snapshot) => {
-  const products = [];
+productService.listen((data) => {
 
-  snapshot.forEach(doc => {
-    products.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
+  const productList = document.getElementById("productList");
+  productList.innerHTML = "";
 
-  renderProducts(products);
-});
-
-// ===== RENDER PRODUK =====
-function renderProducts(products) {
-  const container = document.getElementById("productList");
-  container.innerHTML = "";
-
-  if (products.length === 0) {
-    container.innerHTML = "<p>Belum ada produk.</p>";
+  if (!data) {
+    productList.innerHTML = "<p>Belum ada produk.</p>";
     return;
   }
 
-  products.forEach(product => {
+  for (let id in data) {
 
-    // 🔹 Handle jika sizes kosong / tidak ada
-    const sizes = product.sizes || [];
+    const product = data[id];
+    let variantHTML = "";
 
-    const sizesHTML = sizes.map(size => `
-      <div class="size-item">
-        ${size.size} - Rp ${Number(size.price).toLocaleString("id-ID")}
-      </div>
-    `).join("");
+    for (let v in product.variants) {
+      const variant = product.variants[v];
+      variantHTML += `
+        <p>${variant.size} - 
+        Rp ${variant.price.toLocaleString()}</p>`;
+    }
 
-    const card = `
-      <div class="product-card">
-        <img src="${product.imageUrl || 'https://via.placeholder.com/300'}" alt="${product.name}">
-        <div class="product-info">
-          <h3>${product.name}</h3>
-          <div class="size-list">
-            ${sizesHTML}
-          </div>
-        </div>
+    productList.innerHTML += `
+      <div class="card">
+        <img src="${product.images[0]}" width="200"><br><br>
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        ${variantHTML}
       </div>
     `;
+  }
 
-    container.innerHTML += card;
-  });
-}
+});
