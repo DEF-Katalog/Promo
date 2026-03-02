@@ -4,26 +4,19 @@ from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 export default class ProductService {
 
-  constructor() {
-    this.productsRef = ref(db, "products");
+  save(product) {
+    const productRef = ref(db, "products");
+    push(productRef, product);
   }
 
-  save(product) {
-    const newProductRef = push(this.productsRef);
-    return set(newProductRef, product);
+  update(id, product) {
+    set(ref(db, "products/" + id), product);
   }
 
   listen(callback) {
-    onValue(this.productsRef, (snapshot) => {
+    const productRef = ref(db, "products");
+    onValue(productRef, (snapshot) => {
       callback(snapshot.val());
     });
   }
-
-}
-
-import { ref, set } 
-from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
-
-async update(id, product) {
-  await set(ref(this.db, "products/" + id), product);
 }
