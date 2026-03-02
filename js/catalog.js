@@ -8,30 +8,29 @@ productService.listen((data) => {
   productList.innerHTML = "";
 
   if (!data) {
-    productList.innerHTML = "<p>Belum ada produk.</p>";
-    return;
-  }
+    if (!data || Object.keys(data).length === 0) {
+  productList.innerHTML = "<p>Belum ada produk.</p>";
+  return;
+}
 
-  for (let id in data) {
+Object.values(data).forEach(product => {
 
-    const product = data[id];
-    let variantHTML = "";
+  let variantHTML = "";
 
-    for (let v in product.variants) {
-      const variant = product.variants[v];
+  if (Array.isArray(product.variants)) {
+    product.variants.forEach(variant => {
       variantHTML += `
-        <p>${variant.size} - 
-        Rp ${variant.price.toLocaleString()}</p>`;
-    }
-
-    productList.innerHTML += `
-      <div class="card">
-        <img src="${product.images[0]}" width="200"><br><br>
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        ${variantHTML}
-      </div>
-    `;
+        <p>${variant.size || "-"} - 
+        Rp ${Number(variant.price || 0).toLocaleString("id-ID")}</p>`;
+    });
   }
 
+  productList.innerHTML += `
+    <div class="card">
+      <img src="${product.images?.[0] || 'https://via.placeholder.com/200'}" width="200"><br><br>
+      <h3>${product.name || "Tanpa Nama"}</h3>
+      <p>${product.description || ""}</p>
+      ${variantHTML}
+    </div>
+  `;
 });
