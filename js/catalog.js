@@ -4,34 +4,31 @@ const productService = new ProductService();
 
 productService.listen((data) => {
 
-  const productList = document.getElementById("productList");
-  productList.innerHTML = "";
+  function renderProducts(products) {
+  const container = document.getElementById("productList");
+  container.innerHTML = "";
 
-  if (!data) {
-    productList.innerHTML = "<p>Belum ada produk.</p>";
-    return;
-  }
+  products.forEach(product => {
+    const sizesHTML = product.sizes.map(size => `
+      <div class="size-item">
+        ${size.size} - Rp ${size.price.toLocaleString()}
+      </div>
+    `).join("");
 
-  for (let id in data) {
-
-    const product = data[id];
-    let variantHTML = "";
-
-    for (let v in product.variants) {
-      const variant = product.variants[v];
-      variantHTML += `
-        <p>${variant.size} - 
-        Rp ${variant.price.toLocaleString()}</p>`;
-    }
-
-    productList.innerHTML += `
-      <div class="card">
-        <img src="${product.images[0]}" width="200"><br><br>
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        ${variantHTML}
+    const card = `
+      <div class="product-card">
+        <img src="${product.imageUrl}" alt="${product.name}">
+        <div class="product-info">
+          <h3>${product.name}</h3>
+          <div class="size-list">
+            ${sizesHTML}
+          </div>
+        </div>
       </div>
     `;
-  }
+
+    container.innerHTML += card;
+  });
+}
 
 });
