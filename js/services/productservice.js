@@ -1,6 +1,6 @@
 import { db } from "../firebase.js";
 import { ref, push, set, onValue }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 export default class ProductService {
 
