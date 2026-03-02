@@ -160,14 +160,17 @@ window.editProduct = function(id) {
   );
 
   // Masukkan ulang variants
-  for (let size in product.variants) {
-    currentProduct.addVariant(size, product.variants[size]);
+for (let key in product.variants) {
 
-    document.getElementById("variantPreview").innerHTML +=
-      `<div class="variant-box">
-        ${size} - Rp ${Number(product.variants[size]).toLocaleString()}
-      </div>`;
-  }
+  const v = product.variants[key];
+
+  currentProduct.addVariant(v.size, v.price);
+
+  document.getElementById("variantPreview").innerHTML +=
+    `<div class="variant-box">
+      ${v.size} - Rp ${Number(v.price).toLocaleString()}
+    </div>`;
+}
 
   showToast("Mode edit aktif", "warning");
 };
