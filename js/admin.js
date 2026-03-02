@@ -5,6 +5,7 @@ from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { db } from "./firebase.js";
 
 const productService = new ProductService();
+let dataCache = {};
 let editingId = null;
 let currentProduct = null;
 
@@ -44,16 +45,25 @@ function addVariant() {
   document.getElementById("price").value = "";
 }
 
-function saveProduct() {
+function saveProduct() function saveProduct() {
 
   if (!currentProduct ||
       Object.keys(currentProduct.variants).length === 0)
     return alert("Minimal 1 ukuran!");
 
-  productService.save(currentProduct);
+  if (editingId) {
+    // 🔥 MODE UPDATE
+    productService.update(editingId, currentProduct);
+    alert("Produk berhasil diupdate!");
+    editingId = null;
+    document.getElementById("saveProductBtn").innerText = "Simpan Produk";
+  } else {
+    // 🔥 MODE CREATE
+    productService.save(currentProduct);
+    alert("Produk disimpan!");
+  }
 
-  alert("Produk disimpan!");
-
+  // reset
   currentProduct = null;
   document.getElementById("variantPreview").innerHTML = "";
   document.getElementById("name").value = "";
@@ -62,7 +72,7 @@ function saveProduct() {
 }
 
 productService.listen((data) => {
-
+  dataCache = data;
   const list = document.getElementById("adminProductList");
   list.innerHTML = "";
 
@@ -75,9 +85,8 @@ productService.listen((data) => {
     list.innerHTML += `
       <div class="card">
         <h3>${product.name}</h3>
-        <button onclick="deleteProduct('${id}')">
-          Hapus
-        </button>
+        <button onclick="deleteProduct('${id}')">Hapus</button>
+        <button onclick="editProduct('${id}')">Edit</button>
       </div>
     `;
   }
@@ -89,4 +98,16 @@ window.deleteProduct = function(id) {
   if (!confirm("Yakin hapus?")) return;
 
   remove(ref(db, "products/" + id));
+};
+
+window.editProduct = function(id) {
+
+  const product = dataCache[id]; // nanti kita buat cache
+
+  document.getElementById("name").value = product.name;
+  document.getElementById("description").value = product.description;
+
+  editingId = id;
+
+  document.getElementById("submitBtn").innerText = "Update Produk";
 };
