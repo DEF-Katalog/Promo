@@ -75,12 +75,12 @@ function saveProduct() {
 
   if (editingId) {
     productService.update(editingId, currentProduct);
-    alert("Produk diupdate!");
+    showToast("Produk berhasil diperbarui!", "warning");
     editingId = null;
     document.getElementById("saveProductBtn").innerText = "Simpan Produk";
   } else {
     productService.save(currentProduct);
-    alert("Produk disimpan!");
+    showToast("Produk berhasil ditambahkan!", "success");
   }
 
   resetForm();
@@ -117,8 +117,12 @@ productService.listen((data) => {
 });
 
 window.deleteProduct = function(id) {
+
   if (!confirm("Yakin hapus?")) return;
+
   remove(ref(db, "products/" + id));
+
+  showToast("Produk berhasil dihapus!", "danger");
 };
 
 window.editProduct = function(id) {
