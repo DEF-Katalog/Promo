@@ -54,10 +54,18 @@ async function loadProducts() {
       <h3>${product.name}</h3>
       <p>${product.description}</p>
       <p>Total Varian: ${product.variants?.length || 0}</p>
+        <button class="editBtn" data-id="${product.id}">Edit</button>
+        <button class="deleteBtn" data-id="${product.id}">Delete</button>
       <hr>
     `;
 
     productList.appendChild(div);
+    
+    div.querySelector(".deleteBtn").addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      await ProductService.deleteProduct(id);
+      loadProducts();
+});
   });
 }
   loadProducts();
