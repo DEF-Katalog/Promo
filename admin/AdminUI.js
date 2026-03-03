@@ -73,4 +73,44 @@ export const AdminUI = {
       list.appendChild(div);
     });
   }
+
+  showErrors(errors) {
+  this.clearErrors();
+
+  for (let key in errors) {
+
+    if (key === "name") {
+      this.showErrorBelow("productName", errors[key]);
+    }
+
+    if (key === "desc") {
+      this.showErrorBelow("productDesc", errors[key]);
+    }
+
+    if (key === "variants") {
+      alert(errors[key]);
+    }
+
+    if (key.startsWith("variantName_")) {
+      const index = key.split("_")[1];
+      document.querySelectorAll(".variantName")[index]
+        .insertAdjacentHTML("afterend", `<small class="error">${errors[key]}</small>`);
+    }
+
+    if (key.startsWith("variantPrice_")) {
+      const index = key.split("_")[1];
+      document.querySelectorAll(".variantPrice")[index]
+        .insertAdjacentHTML("afterend", `<small class="error">${errors[key]}</small>`);
+    }
+  }
+},
+
+showErrorBelow(elementId, message) {
+  const el = document.getElementById(elementId);
+  el.insertAdjacentHTML("afterend", `<small class="error">${message}</small>`);
+},
+
+clearErrors() {
+  document.querySelectorAll(".error").forEach(e => e.remove());
+},
 };
