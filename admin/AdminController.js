@@ -1,6 +1,7 @@
 import { Product } from "../models/Product.js";
 import { Variant } from "../models/Variant.js";
 import { ProductService } from "../services/ProductService.js";
+
 import { AdminUI } from "./AdminUI.js";
 import { AdminState } from "./AdminState.js";
 import { AdminValidator } from "./AdminValidator.js";
@@ -23,12 +24,13 @@ async function loadProducts() {
 }
 
 /* ===============================
-   HANDLE SAVE
+   HANDLE SAVE / UPDATE
 =================================*/
 saveProductBtn.addEventListener("click", async () => {
 
   const formData = AdminUI.getFormData();
 
+  // VALIDASI
   const errors = AdminValidator.validate(formData);
 
   if (Object.keys(errors).length > 0) {
@@ -39,11 +41,16 @@ saveProductBtn.addEventListener("click", async () => {
   const product = new Product(formData.name, formData.desc);
 
   formData.variants.forEach(v => {
-    product.addVariant(new Variant(v.name, Number(v.price)));
+    product.addVariant(
+      new Variant(v.name, Number(v.price))
+    );
   });
 
   if (AdminState.editMode) {
-    await ProductService.updateProduct(AdminState.currentEditId, product);
+    await ProductService.updateProduct(
+      AdminState.currentEditId,
+      product
+    );
   } else {
     await ProductService.saveProduct(product);
   }
@@ -61,6 +68,9 @@ async function handleEdit(id) {
 
   AdminState.setEditMode(id);
   AdminUI.fillForm(product);
+
+  // Attach formatter ulang setelah render ulang input
+  AdminUI.attachPriceFormatter();
 }
 
 /* ===============================
@@ -83,17 +93,24 @@ cancelEditBtn.addEventListener("click", () => {
    ADD VARIANT BUTTON
 =================================*/
 addVariantBtn.addEventListener("click", () => {
+
   const container = document.getElementById("variantContainer");
 
   const div = document.createElement("div");
   div.innerHTML = `
     <input type="text" placeholder="Nama Varian" class="variantName">
-    <input type="number" placeholder="Harga" class="variantPrice">
+    <input type="text" placeholder="Harga" class="variantPrice">
     <br><br>
   `;
 
   container.appendChild(div);
+
+  // Attach formatter setiap tambah varian
+  AdminUI.attachPriceFormatter();
 });
 
-/* INIT */
+/* ===============================
+   INIT
+=================================*/
 loadProducts();
+AdminUI.attachPriceFormatter();
