@@ -12,7 +12,7 @@ export const AdminUI = {
     variantNames.forEach((input, index) => {
       variants.push({
         name: input.value,
-        price: variantPrices[index].value
+        price: this.cleanNumber(variantPrices[index].value)
       });
     });
 
