@@ -5,6 +5,7 @@ import { ProductService } from "../services/ProductService.js";
 const variantContainer = document.getElementById("variantContainer");
 const addVariantBtn = document.getElementById("addVariantBtn");
 const saveProductBtn = document.getElementById("saveProductBtn");
+const productList = document.getElementById("productList");
 
 addVariantBtn.addEventListener("click", () => {
   const variantDiv = document.createElement("div");
@@ -38,4 +39,25 @@ saveProductBtn.addEventListener("click", async () => {
   const productId = await ProductService.saveProduct(product);
 
   alert("Produk berhasil disimpan dengan ID: " + productId);
+  loadProducts();
 });
+
+async function loadProducts() {
+  const products = await ProductService.getAllProducts();
+
+  productList.innerHTML = "";
+
+  products.forEach(product => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <p>Total Varian: ${product.variants?.length || 0}</p>
+      <hr>
+    `;
+
+    productList.appendChild(div);
+  });
+}
+  loadProducts();
