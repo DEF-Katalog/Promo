@@ -2,6 +2,7 @@ import { db } from "../firebase.js";
 import { ref, push, set } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { get } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { update } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 export class ProductService {
 
@@ -29,7 +30,7 @@ export class ProductService {
   await remove(ref(db, "products/" + id));
 }
 
-// untuk mengubah data dari firebase
+// untuk mengambil data dari firebase
   static async getProductById(id) {
   const snapshot = await get(ref(db, "products/" + id));
   if (!snapshot.exists()) return null;
@@ -38,5 +39,10 @@ export class ProductService {
     id,
     ...snapshot.val()
   };
+}
+
+  // untuk mengubah data dari firebase
+  static async updateProduct(id, product) {
+  await update(ref(db, "products/" + id), product);
 }
 }
