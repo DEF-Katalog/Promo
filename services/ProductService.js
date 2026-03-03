@@ -1,6 +1,7 @@
 import { db } from "../firebase.js";
 import { ref, push, set } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { get } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 export class ProductService {
 
@@ -21,5 +22,10 @@ export class ProductService {
     id: key,
     ...data[key]
   }));
+}
+
+// untuk menghapus data dari firebase
+  static async deleteProduct(id) {
+  await remove(ref(db, "products/" + id));
 }
 }
