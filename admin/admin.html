@@ -5,11 +5,21 @@
 </head>
 <body>
 
-<h1>Admin Page</h1>
+<h1>Tambah Produk</h1>
 
-<script type="module">
-  import "../firebase.js";
-</script>
+<input type="text" id="productName" placeholder="Nama Produk"><br><br>
+<textarea id="productDesc" placeholder="Deskripsi"></textarea><br><br>
+
+<h3>Varian</h3>
+
+<div id="variantContainer"></div>
+
+<button id="addVariantBtn">Tambah Varian</button>
+<br><br>
+
+<button id="saveProductBtn">Simpan Produk</button>
+
+<script type="module" src="./AdminController.js"></script>
 
 </body>
 </html>
