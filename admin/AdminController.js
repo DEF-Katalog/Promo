@@ -2,6 +2,10 @@ import { Product } from "../models/Product.js";
 import { Variant } from "../models/Variant.js";
 import { ProductService } from "../services/ProductService.js";
 
+//untuk menentukan edit atau tambah
+let editMode = false;
+let currentEditId = null;
+
 const variantContainer = document.getElementById("variantContainer");
 const addVariantBtn = document.getElementById("addVariantBtn");
 const saveProductBtn = document.getElementById("saveProductBtn");
