@@ -33,6 +33,9 @@ export const AdminUI = {
     document.getElementById("saveProductBtn").textContent = "Simpan Produk";
     document.getElementById("cancelEditBtn").style.display = "none";
 
+    document.getElementById("productImage").value = "";
+    document.getElementById("imagePreview").style.display = "none";
+
     this.clearErrors();
   },
 
@@ -169,4 +172,25 @@ export const AdminUI = {
     });
   }
 
+  /* ===============================
+     IMAGE PROSEDUR
+  =================================*/
+  attachImagePreview() {
+  const fileInput = document.getElementById("productImage");
+  const preview = document.getElementById("imagePreview");
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+  
 };
