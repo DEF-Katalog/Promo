@@ -38,7 +38,14 @@ saveProductBtn.addEventListener("click", async () => {
     return;
   }
 
-  const product = new Product(formData.name, formData.desc);
+  const fileInput = document.getElementById("productImage");
+   let imageUrl = "";
+
+   if (fileInput.files[0]) {
+     imageUrl = await ProductService.uploadImage(fileInput.files[0]);
+   }
+
+   const product = new Product(formData.name, formData.desc, imageUrl);
 
   formData.variants.forEach(v => {
     product.addVariant(
@@ -114,3 +121,4 @@ addVariantBtn.addEventListener("click", () => {
 =================================*/
 loadProducts();
 AdminUI.attachPriceFormatter();
+AdminUI.attachImagePreview();
