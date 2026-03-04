@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9kmOi6YEbpzZoh0QQFbYlLa9-dwahJcc",
@@ -13,5 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
+export const storage = getStorage(app);
 
 console.log("Firebase Connected");
