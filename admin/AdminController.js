@@ -29,8 +29,6 @@ async function loadProducts() {
 saveProductBtn.addEventListener("click", async () => {
 
   const formData = AdminUI.getFormData();
-
-  // VALIDASI
   const errors = AdminValidator.validate(formData);
 
   if (Object.keys(errors).length > 0) {
@@ -39,26 +37,51 @@ saveProductBtn.addEventListener("click", async () => {
   }
 
   const fileInput = document.getElementById("productImage");
-   let imageUrl = "";
-
-   if (fileInput.files[0]) {
-     imageUrl = await ProductService.uploadImage(fileInput.files[0]);
-   }
-
-   const product = new Product(formData.name, formData.desc, imageUrl);
-
-  formData.variants.forEach(v => {
-    product.addVariant(
-      new Variant(v.name, Number(v.price))
-    );
-  });
+  let imageUrl = "";
 
   if (AdminState.editMode) {
+
+    // Ambil data lama dulu
+    const oldProduct = await ProductService.getProductById(
+      AdminState.currentEditId
+    );
+
+    imageUrl = oldProduct.imageUrl || "";
+
+    // Kalau upload gambar baru
+    if (fileInput.files[0]) {
+
+      // Hapus gambar lama
+      await ProductService.deleteImageByUrl(oldProduct.imageUrl);
+
+      // Upload baru
+      imageUrl = await ProductService.uploadImage(fileInput.files[0]);
+    }
+
+    const product = new Product(formData.name, formData.desc, imageUrl);
+
+    formData.variants.forEach(v => {
+      product.addVariant(new Variant(v.name, Number(v.price)));
+    });
+
     await ProductService.updateProduct(
       AdminState.currentEditId,
       product
     );
+
   } else {
+
+    // MODE CREATE
+    if (fileInput.files[0]) {
+      imageUrl = await ProductService.uploadImage(fileInput.files[0]);
+    }
+
+    const product = new Product(formData.name, formData.desc, imageUrl);
+
+    formData.variants.forEach(v => {
+      product.addVariant(new Variant(v.name, Number(v.price)));
+    });
+
     await ProductService.saveProduct(product);
   }
 
