@@ -30,11 +30,12 @@ export const AdminUI = {
     document.getElementById("productDesc").value = "";
     document.getElementById("variantContainer").innerHTML = "";
 
+    document.getElementById("productImage").value = "";
+    document.getElementById("imagePreview").src = "";
+    document.getElementById("imagePreview").style.display = "none";
+
     document.getElementById("saveProductBtn").textContent = "Simpan Produk";
     document.getElementById("cancelEditBtn").style.display = "none";
-
-    document.getElementById("productImage").value = "";
-    document.getElementById("imagePreview").style.display = "none";
 
     this.clearErrors();
   },
@@ -61,6 +62,13 @@ export const AdminUI = {
       container.appendChild(div);
     });
 
+    // Tampilkan gambar lama jika ada
+    if (product.imageUrl) {
+      const preview = document.getElementById("imagePreview");
+      preview.src = product.imageUrl;
+      preview.style.display = "block";
+    }
+
     document.getElementById("saveProductBtn").textContent = "Update Produk";
     document.getElementById("cancelEditBtn").style.display = "inline-block";
 
@@ -78,10 +86,10 @@ export const AdminUI = {
       const div = document.createElement("div");
       div.classList.add("product-card");
 
-    div.innerHTML = `
+      div.innerHTML = `
         <h3>${product.name}</h3>
         <p>${product.description}</p>
-            ${product.imageUrl ? `<img src="${product.imageUrl}" style="max-width:120px;">` : ""}
+        ${product.imageUrl ? `<img src="${product.imageUrl}" style="max-width:120px; margin-bottom:10px;">` : ""}
         <p>Total Varian: ${product.variants?.length || 0}</p>
         <button class="editBtn">Edit</button>
         <button class="deleteBtn">Delete</button>
@@ -163,35 +171,32 @@ export const AdminUI = {
   attachPriceFormatter() {
     document.querySelectorAll(".variantPrice").forEach(input => {
 
-      input.removeEventListener("input", this._priceHandler);
-
-      this._priceHandler = (e) => {
+      input.addEventListener("input", (e) => {
         e.target.value = this.formatRupiah(e.target.value);
+      });
+
+    });
+  },
+
+  /* ===============================
+     IMAGE PREVIEW
+  =================================*/
+  attachImagePreview() {
+    const fileInput = document.getElementById("productImage");
+    const preview = document.getElementById("imagePreview");
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = "block";
       };
 
-      input.addEventListener("input", this._priceHandler);
+      reader.readAsDataURL(file);
     });
   }
 
-  /* ===============================
-     IMAGE PROSEDUR
-  =================================*/
-  attachImagePreview() {
-  const fileInput = document.getElementById("productImage");
-  const preview = document.getElementById("imagePreview");
-
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      preview.src = e.target.result;
-      preview.style.display = "block";
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-  
 };
