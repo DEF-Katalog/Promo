@@ -3,10 +3,9 @@ import { ref, push, set } from "https://www.gstatic.com/firebasejs/12.10.0/fireb
 import { get } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 import { update } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
-import { deleteObject, ref as storageRef } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
 import { storage } from "../firebase.js";
-import { ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
+import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
 export class ProductService {
 
